@@ -43,5 +43,5 @@ spring:
       ddl-auto: create
     database-platform: org.hibernate.dialect.H2Dialect
     database: H2
-    generate-ddl: false
+    generate-ddl: true
     

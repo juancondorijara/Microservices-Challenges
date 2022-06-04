@@ -1,0 +1,46 @@
+server:
+  port: 9191
+spring:
+  kafka:
+    bootstrap-servers: sulky-01.srvs.cloudkafka.com:9094,sulky-02.srvs.cloudkafka.com:9094,sulky-03.srvs.cloudkafka.com:9094
+    jaas:
+      enabled: true
+    properties:
+      security:
+        protocol: SASL_SSL
+      sasl:
+        mechanism: SCRAM-SHA-256
+        jaas.config: org.apache.kafka.common.security.scram.ScramLoginModule required username="tp37rlrg" password="rtimYQKhNJTvpzyzkDiWaGSY_pa-HLXA";
+    consumer:
+      group-id: tp37rlrg-consumers
+      auto-offset-reset: latest
+      properties.spring.json.trusted.packages: sample.kafka
+
+  cloud:
+    stream:
+      kafka:
+        binder:
+          replication-factor: 1
+      function:
+        definition: orderPurchaseEventProcessor;paymentEventSubscriber
+      bindings:
+        orderPurchaseEventProcessor-in-0:
+          destination: tp37rlrg-orders
+        orderPurchaseEventProcessor-out-0:
+          destination: tp37rlrg-payments
+        paymentEventSubscriber-in-0:
+          destination: tp37rlrg-payments
+        paymentEventSubscriber-out-0:
+          destination: tp37rlrg-transactions
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driverClassName: org.h2.Driver
+    username: sa
+    password:
+    maximum-pool-size: 100
+  jpa:
+    hibernate:
+      ddl-auto: create
+    database-platform: org.hibernate.dialect.H2Dialect
+    database: H2
+    generate-ddl: true

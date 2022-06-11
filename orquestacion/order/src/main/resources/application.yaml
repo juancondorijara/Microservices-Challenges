@@ -1,0 +1,23 @@
+spring:
+  data:
+    mongo:
+      host: localhost
+      port: 27017
+      uri: mongodb://localhost/test
+  application:
+    name: order-service
+
+server:
+  port: 8093
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8099/eureka/
+  instance:
+    preferIpAddress: true
+    hostName: 192.168.1.10
+
+hystrix:
+  dashboard:
+    proxy-stream-allow-list: "*"

@@ -1,0 +1,19 @@
+spring:
+  data:
+    mongo:
+      host: localhost
+      port: 27017
+      uri: mongodb://localhost/test
+  application:
+    name: product-service
+
+server:
+  port: 8092
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8099/eureka/
+  instance:
+    preferIpAddress: true
+    hostName: 192.168.1.10

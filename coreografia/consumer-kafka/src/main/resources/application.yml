@@ -1,0 +1,13 @@
+server:
+  port: 8098
+
+spring:
+  kafka:
+    consumer:
+      auto-offset-reset: earliest
+
+kafka:
+  consumer:
+    bootstrap-servers: localhost:9092
+    group-id: portabilidad-grupo
+    topic_name: topic-demo

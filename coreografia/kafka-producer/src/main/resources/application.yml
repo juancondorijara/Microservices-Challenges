@@ -1,0 +1,12 @@
+server:
+  port: 8099
+
+spring:
+  kafka:
+    consumer:
+      auto-offset-reset: earliest
+
+kafka:
+  consumer:
+    bootstrap-servers: localhost:9092
+    group-id: portabilidad-grupo

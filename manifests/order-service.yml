@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: order-ms
+spec:
+  ports:
+    - nodePort: 31000
+      port: 9192
+      targetPort: 9192
+  selector:
+    app: order-ms
+  type: NodePort

@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-ms
+  labels:
+    app: order-ms
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: order-ms
+  template:
+    metadata:
+      labels:
+        app: order-ms
+    spec:
+      containers:
+        - name: order-ms
+          image: malditoidealismo/order-ms
+          ports:
+            - name: http
+              containerPort: 9192
+              protocol: TCP

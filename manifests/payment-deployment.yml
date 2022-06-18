@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payment-ms
+  labels:
+    app: payment-ms
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: payment-ms
+  template:
+    metadata:
+      labels:
+        app: payment-ms
+    spec:
+      containers:
+        - name: payment-ms
+          image: malditoidealismo/payment-ms
+          ports:
+            - name: http
+              containerPort: 9191
+              protocol: TCP

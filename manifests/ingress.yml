@@ -1,0 +1,31 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-payment-flow
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    #nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    nginx.ingress.kubernetes.io/use-regex: "true"
+spec:
+  rules:
+    - http:
+        paths:
+          - backend:
+              service:
+                name: order-ms
+                port:
+                  number: 9192
+            path: /order/?(.*)
+            pathType: Prefix
+          - backend:
+              service:
+                name: payment-ms
+                port:
+                  number: 9191
+            path: /payment/?(.*)
+            pathType: Prefix
+
+            
+# Install ingress on cluster
+# kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.41.2/deploy/static/provider/cloud/deploy.yaml

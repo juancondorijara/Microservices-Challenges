@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: payment-ms
+spec:
+  ports:
+    - nodePort: 32000
+      port: 9191
+      targetPort: 9191
+  selector:
+    app: payment-ms
+  type: NodePort

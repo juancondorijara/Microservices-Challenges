@@ -1,0 +1,135 @@
+version: '3.8'
+
+services:
+  zookeeper:
+    image: zookeeper:3.4.9
+    hostname: zookeeper
+    ports:
+      - "2181:2181"
+    environment:
+      ZOO_MY_ID: 1
+      ZOO_PORT: 2181
+      ZOO_SERVERS: server.1=zookeeper:2888:3888
+    volumes:
+      - ./kafka-data/zookeeper/data:/data
+      - ./kafka-data/zookeeper/datalog:/datalog
+    networks:
+      microservice_network:
+
+  kafka1:
+    image: confluentinc/cp-kafka:5.3.0
+    hostname: kafka1
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_ADVERTISED_LISTENERS: LISTENER_DOCKER_INTERNAL://kafka1:19092,LISTENER_DOCKER_EXTERNAL://${DOCKER_HOST_IP:-127.0.0.1}:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: LISTENER_DOCKER_INTERNAL:PLAINTEXT,LISTENER_DOCKER_EXTERNAL:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: LISTENER_DOCKER_INTERNAL
+      KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
+      KAFKA_BROKER_ID: 1
+      KAFKA_LOG4J_LOGGERS: "kafka.controller=INFO,kafka.producer.async.DefaultEventHandler=INFO,state.change.logger=INFO"
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    volumes:
+      - ./kafka-data/kafka1/data:/var/lib/kafka/data
+    depends_on:
+      - zookeeper
+    networks:
+      microservice_network:
+
+  kafka2:
+    image: confluentinc/cp-kafka:5.3.0
+    hostname: kafka2
+    ports:
+      - "9093:9093"
+    environment:
+      KAFKA_ADVERTISED_LISTENERS: LISTENER_DOCKER_INTERNAL://kafka2:19093,LISTENER_DOCKER_EXTERNAL://${DOCKER_HOST_IP:-127.0.0.1}:9093
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: LISTENER_DOCKER_INTERNAL:PLAINTEXT,LISTENER_DOCKER_EXTERNAL:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: LISTENER_DOCKER_INTERNAL
+      KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
+      KAFKA_BROKER_ID: 2
+      KAFKA_LOG4J_LOGGERS: "kafka.controller=INFO,kafka.producer.async.DefaultEventHandler=INFO,state.change.logger=INFO"
+    volumes:
+      - ./kafka-data/kafka2/data:/var/lib/kafka/data
+    depends_on:
+      - zookeeper
+    networks:
+      microservice_network:
+
+  kafka3:
+    image: confluentinc/cp-kafka:5.3.0
+    hostname: kafka3
+    ports:
+      - "9094:9094"
+    environment:
+      KAFKA_ADVERTISED_LISTENERS: LISTENER_DOCKER_INTERNAL://kafka3:19094,LISTENER_DOCKER_EXTERNAL://${DOCKER_HOST_IP:-127.0.0.1}:9094
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: LISTENER_DOCKER_INTERNAL:PLAINTEXT,LISTENER_DOCKER_EXTERNAL:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: LISTENER_DOCKER_INTERNAL
+      KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
+      KAFKA_BROKER_ID: 3
+      KAFKA_LOG4J_LOGGERS: "kafka.controller=INFO,kafka.producer.async.DefaultEventHandler=INFO,state.change.logger=INFO"
+    volumes:
+      - ./kafka-data/kafka3/data:/var/lib/kafka/data
+    depends_on:
+      - zookeeper
+    networks:
+      microservice_network:
+
+#  kafka-setup:
+#    image: confluentinc/cp-kafka:6.1.1
+#    depends_on:
+#      - zookeeper
+#      - kafka1
+#      - kafka2
+#      - kafka3
+#    entrypoint: [ '/bin/sh', '-c' ]
+#    command: |
+#      "
+#      # blocks until kafka is reachable
+#      kafka-topics --bootstrap-server kafka1:19092 --list
+#
+#      echo -e 'Creating kafka topics'
+#      kafka-topics --bootstrap-server kafka1:19092 --create --if-not-exists --topic my-topic-1 --replication-factor 1 --partitions 1
+#      kafka-topics --bootstrap-server kafka1:19092 --create --if-not-exists --topic my-topic-2 --replication-factor 1 --partitions 1
+#
+#      echo -e 'Successfully created the following topics:'
+#      kafka-topics --bootstrap-server kafka1:19092 --list
+#      "
+#    networks:
+#      microservice_network:
+
+  manager:
+    image: sheepkiller/kafka-manager
+    ports:
+      - "9000:9000"
+    environment:
+      - ZK_HOSTS=zookeeper:2181
+    depends_on:
+      - zookeeper
+#      - kafka-setup
+    networks:
+      microservice_network:
+
+#  order-service:
+#    build: ./order-service
+#    container_name: order-service
+#    ports:
+#      - "9192:9192"
+#    depends_on:
+#      - manager
+#    networks:
+#      microservice_network:
+#
+#  payment-service:
+#    build: ./payment-service
+#    container_name: payment-service
+#    ports:
+#      - "9191:9191"
+#    depends_on:
+#      - manager
+#    networks:
+#      microservice_network:
+
+networks:
+  microservice_network:
+    ipam:
+      driver: default

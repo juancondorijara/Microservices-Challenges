@@ -1,0 +1,179 @@
+services:
+    elasticsearch:
+        container_name: "elasticsearch"
+        image: elasticsearch:7.14.2
+        volumes:
+            - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+            - elasticsearch:/usr/share/elasticsearch/data
+        ports:
+            - "9200:9200"
+            - "9300:9300"
+        environment:
+            ES_JAVA_OPTS: "-Xmx256m -Xms256m"
+            ELASTIC_PASSWORD: elastic123
+            discovery.type: single-node
+        networks:
+            - observability
+
+    logstash:
+        build:
+            context: ./logstash
+        container_name: "logstash"
+        image: logstash:7.14.2
+        volumes:
+            - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml
+            - ./logstash/pipeline/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+        ports:
+            - "5044:5044"
+            - "9600:9600"
+        environment:
+            LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+        depends_on:
+            - elasticsearch
+        networks:
+            - observability
+
+    kibana:
+        container_name: "kibana"
+        image: kibana:7.14.2
+        volumes:
+            - ./kibana/config/kibana.yml:/usr/share/kibana/config/kibana.yml
+        ports:
+            - "5601:5601"
+        depends_on:
+            - elasticsearch
+        networks:
+            - observability
+
+    rabbitmq:
+        container_name: "rabbitmq"
+        image: rabbitmq:3.8-management-alpine
+        volumes:
+            - rabbitmq-lib:/var/lib/rabbitmq/
+        environment:
+            - RABBITMQ_DEFAULT_USER=vg
+            - RABBITMQ_DEFAULT_PASS=vg123
+        ports:
+            # AMQP protocol port
+            - '5672:5672'
+            # HTTP management UI
+            - '15672:15672'
+    #     depends_on:
+    #         - elasticsearch
+        networks:
+             - observability
+
+    prometheus:
+        container_name: "prometheus"
+        image: prom/prometheus:v2.31.1
+        volumes:
+            - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+            - prometheus_data:/prometheus
+        command:
+            - '--config.file=/etc/prometheus/prometheus.yml'
+            - '--storage.tsdb.path=/prometheus'
+            - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+            - '--web.console.templates=/usr/share/prometheus/consoles'
+            - '--storage.tsdb.retention.time=5d'
+        ports:
+            - 9090:9090
+        networks:
+            - observability
+
+    grafana:
+        container_name: "grafana"
+        image: grafana/grafana:8.2.5
+        #environment:
+           # GF_INSTALL_PLUGINS: 'grafana-clock-panel,grafana-simple-json-datasource'
+        volumes:
+            - grafana_data:/var/lib/grafana
+            - ./grafana/provisioning/:/etc/grafana/provisioning/
+            - ./grafana/dashboards/:/etc/grafana/dashboards/
+        ports:
+            - 3000:3000
+        depends_on:
+            - prometheus
+        networks:
+            - observability
+    
+    jaeger-collector:
+        container_name: "jaeger-collector"
+        image: jaegertracing/jaeger-collector:1.17
+        ports:
+            - "14269:14269"
+            - "14268:14268"
+            - "14267:14267"
+            - "9411:9411"
+        environment:
+            - SPAN_STORAGE_TYPE=elasticsearch
+            - ES_VERSION=7.14.2
+        command: [
+            "--es.server-urls=http://elasticsearch:9200",
+            "--es.username=elastic",
+            "--es.password=elastic123",
+            "--es.num-shards=1",
+            "--es.num-replicas=0",
+            "--log-level=info"
+            ]
+        # depends_on:
+        #     - elasticsearch
+        networks:
+            - observability
+    
+    jaeger-agent:
+        container_name: "jaeger-agent"
+        image: jaegertracing/jaeger-agent:1.17
+        hostname: jaeger-agent
+        command: ["--collector.host-port=jaeger-collector:14267"]
+        ports:
+            - "5775:5775/udp"
+            - "6831:6831/udp"
+            - "6832:6832/udp"
+            - "5778:5778"
+        environment:
+            - SPAN_STORAGE_TYPE=elasticsearch
+        networks:
+            - observability
+        depends_on:
+            - jaeger-collector
+
+    jaeger-query:
+        container_name: "jaeger-query"
+        image: jaegertracing/jaeger-query:1.17
+        environment:
+            - SPAN_STORAGE_TYPE=elasticsearch
+            - no_proxy=localhost
+        ports:
+            - "16686:16686"
+            - "16687:16687"
+        command: [
+            "--es.server-urls=http://elasticsearch:9200",
+            "--es.username=elastic",
+            "--es.password=elastic123",
+            "--span-storage.type=elasticsearch",
+            "--log-level=debug"
+        ]
+        depends_on:
+            - jaeger-agent
+        networks:
+            - observability
+    
+    coproductos:
+        build:
+            context: ./coproductos
+        container_name: "coproductos"
+        ports:
+            - '8080:8080'
+        networks:
+            - observability
+    #     depends_on:
+    #         - jaeger-agent
+
+networks:
+    observability:
+        driver: bridge
+volumes:
+    elasticsearch: null
+    rabbitmq-lib: null
+    prometheus_data: null
+    grafana_data: null

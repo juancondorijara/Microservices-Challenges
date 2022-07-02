@@ -1,0 +1,49 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: bsitem
+  profiles: 
+    active: [dev,observability]
+management:
+  health:
+    rabbit:
+      enabled: false
+    endpoint:
+      shutdown:
+        enabled: true
+      health:
+        show-details: always
+        enabled: true
+      metrics:
+        enabled: true
+      info:
+        enabled: true
+      env:
+        enabled: true
+  metrics:
+    tags:
+      application: ${spring.application.name}
+      service: ${spring.application.name}
+      instance: ${spring.application.name}
+    enable:
+      jvm: true
+      process: true
+      tomcat: true
+      system: true
+      logback: true
+    distribution:
+      slo:
+        http.server.requests: 50ms
+      percentiles-histogram:
+        http.server.requests: true
+      percentiles:
+        http.server.requests: 0.99
+  endpoints:
+    enabled-by-default: true
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    metrics:
+      enabled: true

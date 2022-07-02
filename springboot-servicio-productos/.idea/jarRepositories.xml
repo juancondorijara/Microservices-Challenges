@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="RemoteRepositoriesConfiguration">
+    <remote-repository>
+      <option name="id" value="cai_artifact_repository" />
+      <option name="name" value="cai_artifact_repository" />
+      <option name="url" value="https://financieraoh.pkgs.visualstudio.com/_packaging/cai_artifact_repository/maven/v1" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="framework-arquitectura" />
+      <option name="name" value="framework-arquitectura" />
+      <option name="url" value="https://pkgs.dev.azure.com/financieraoh/Banking-Microservices/_packaging/framework-arquitectura/maven/v1" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="central" />
+      <option name="name" value="Central Repository" />
+      <option name="url" value="https://repo.maven.apache.org/maven2/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="central" />
+      <option name="name" value="Maven Central repository" />
+      <option name="url" value="https://repo1.maven.org/maven2" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="sleyva0208" />
+      <option name="name" value="sleyva0208" />
+      <option name="url" value="https://pkgs.dev.azure.com/sleyva0208/_packaging/sleyva0208/maven/v1" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="jboss.community" />
+      <option name="name" value="JBoss Community repository" />
+      <option name="url" value="https://repository.jboss.org/nexus/content/repositories/public/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="my-repo1" />
+      <option name="name" value="your custom repo" />
+      <option name="url" value="https://mvnrepository.com" />
+    </remote-repository>
+  </component>
+</project>

@@ -1,0 +1,733 @@
+{
+  "__inputs": [
+    {
+      "name": "DS_INFLUXDB",
+      "label": "InfluxDB",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "influxdb",
+      "pluginName": "InfluxDB"
+    }
+  ],
+  "__requires": [
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "6.6.1"
+    },
+    {
+      "type": "panel",
+      "id": "graph",
+      "name": "Graph",
+      "version": ""
+    },
+    {
+      "type": "datasource",
+      "id": "influxdb",
+      "name": "InfluxDB",
+      "version": "1.0.0"
+    },
+    {
+      "type": "panel",
+      "id": "stat",
+      "name": "Stat",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "table",
+      "name": "Table",
+      "version": ""
+    }
+  ],
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "limit": 100,
+        "name": "Annotations & Alerts",
+        "showIn": 0,
+        "type": "dashboard"
+      }
+    ]
+  },
+  "description": "A very simple and visual Dashboard to monitor HTTP Responses using the native http_response from Telegraf. It just works automatically once the sources are added to telegraf.",
+  "editable": true,
+  "gnetId": 11777,
+  "graphTooltip": 0,
+  "id": null,
+  "iteration": 1582370284732,
+  "links": [],
+  "panels": [
+    {
+      "cacheTimeout": null,
+      "datasource": "${DS_INFLUXDB}",
+      "description": "Monitoring of the HTTP Response. On the Title of the widget you can find the Website name, and on the value the current response of the HTTP or HTTPS.\n\nThresholds are:\n* Results with 20x , Green\n* Results with 30x , Orange\n* Results with 40x , Red\n* Results with 50x , Blue",
+      "gridPos": {
+        "h": 7,
+        "w": 3.4285714285714284,
+        "x": 0,
+        "y": 0
+      },
+      "id": 2,
+      "links": [],
+      "maxPerRow": 12,
+      "options": {
+        "colorMode": "background",
+        "fieldOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "defaults": {
+            "decimals": 0,
+            "mappings": [
+              {
+                "id": 0,
+                "op": "=",
+                "text": "OK",
+                "type": 1,
+                "value": "200"
+              },
+              {
+                "from": "",
+                "id": 1,
+                "operator": "",
+                "text": "Created",
+                "to": "",
+                "type": 1,
+                "value": "201"
+              },
+              {
+                "from": "",
+                "id": 2,
+                "operator": "",
+                "text": "Accepted",
+                "to": "",
+                "type": 1,
+                "value": "202"
+              },
+              {
+                "from": "",
+                "id": 3,
+                "operator": "",
+                "text": "Non-Authoritative Information",
+                "to": "",
+                "type": 1,
+                "value": "203"
+              },
+              {
+                "from": "",
+                "id": 4,
+                "operator": "",
+                "text": "No Content",
+                "to": "",
+                "type": 1,
+                "value": "204"
+              },
+              {
+                "from": "",
+                "id": 5,
+                "operator": "",
+                "text": "Reset Content",
+                "to": "",
+                "type": 1,
+                "value": "205"
+              },
+              {
+                "from": "",
+                "id": 6,
+                "operator": "",
+                "text": "Partial Content",
+                "to": "",
+                "type": 1,
+                "value": "206"
+              },
+              {
+                "from": "",
+                "id": 7,
+                "operator": "",
+                "text": "Multi-Status",
+                "to": "",
+                "type": 1,
+                "value": "207"
+              },
+              {
+                "from": "",
+                "id": 8,
+                "operator": "",
+                "text": "Already Reported",
+                "to": "",
+                "type": 1,
+                "value": "208"
+              },
+              {
+                "from": "",
+                "id": 9,
+                "operator": "",
+                "text": "IM Used",
+                "to": "",
+                "type": 1,
+                "value": "209"
+              },
+              {
+                "from": "",
+                "id": 10,
+                "operator": "",
+                "text": "Multiple Choices",
+                "to": "",
+                "type": 1,
+                "value": "300"
+              },
+              {
+                "from": "",
+                "id": 11,
+                "operator": "",
+                "text": "Moved Permanently",
+                "to": "",
+                "type": 1,
+                "value": "301"
+              },
+              {
+                "from": "",
+                "id": 12,
+                "operator": "",
+                "text": "Moved temporarily",
+                "to": "",
+                "type": 1,
+                "value": "302"
+              },
+              {
+                "from": "",
+                "id": 13,
+                "operator": "",
+                "text": "Permanent Redirect",
+                "to": "",
+                "type": 1,
+                "value": "308"
+              },
+              {
+                "from": "",
+                "id": 14,
+                "operator": "",
+                "text": "Bad Request",
+                "to": "",
+                "type": 1,
+                "value": "400"
+              },
+              {
+                "from": "",
+                "id": 15,
+                "operator": "",
+                "text": "Unauthorized ",
+                "to": "",
+                "type": 1,
+                "value": "401"
+              },
+              {
+                "from": "",
+                "id": 16,
+                "operator": "",
+                "text": "Payment Required",
+                "to": "",
+                "type": 1,
+                "value": "402"
+              },
+              {
+                "from": "",
+                "id": 17,
+                "operator": "",
+                "text": "Forbidden",
+                "to": "",
+                "type": 1,
+                "value": "403"
+              },
+              {
+                "from": "",
+                "id": 18,
+                "operator": "",
+                "text": "Not Found",
+                "to": "",
+                "type": 1,
+                "value": "404"
+              },
+              {
+                "from": "",
+                "id": 19,
+                "operator": "",
+                "text": "Method Not Allowed",
+                "to": "",
+                "type": 1,
+                "value": "405"
+              },
+              {
+                "from": "",
+                "id": 20,
+                "operator": "",
+                "text": "Not Acceptable",
+                "to": "",
+                "type": 1,
+                "value": "406"
+              },
+              {
+                "from": "",
+                "id": 21,
+                "operator": "",
+                "text": "Proxy Authentication Required",
+                "to": "",
+                "type": 1,
+                "value": "407"
+              },
+              {
+                "from": "",
+                "id": 22,
+                "operator": "",
+                "text": "Request Timeout",
+                "to": "",
+                "type": 1,
+                "value": "408"
+              },
+              {
+                "from": "",
+                "id": 23,
+                "operator": "",
+                "text": "Conflict",
+                "to": "",
+                "type": 1,
+                "value": "409"
+              },
+              {
+                "from": "",
+                "id": 24,
+                "operator": "",
+                "text": "Gone",
+                "to": "",
+                "type": 1,
+                "value": "410"
+              },
+              {
+                "from": "",
+                "id": 25,
+                "operator": "",
+                "text": "Internal Server Error",
+                "to": "",
+                "type": 1,
+                "value": "500"
+              }
+            ],
+            "max": 0,
+            "min": 0,
+            "nullValueMode": "connected",
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "semi-dark-green",
+                  "value": null
+                },
+                {
+                  "color": "semi-dark-orange",
+                  "value": 300
+                },
+                {
+                  "color": "semi-dark-red",
+                  "value": 400
+                },
+                {
+                  "color": "semi-dark-blue",
+                  "value": 500
+                }
+              ]
+            },
+            "unit": "short"
+          },
+          "overrides": [],
+          "values": false
+        },
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "vertical"
+      },
+      "pluginVersion": "6.6.1",
+      "repeat": "url_name",
+      "repeatDirection": "h",
+      "targets": [
+        {
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "none"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "http_response",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT (expiry / 60 / 60 / 24) as \"expiry\" FROM \"x509_cert\" WHERE (\"source\" =~ /^$ssl_name$/) AND $timeFilter ",
+          "rawQuery": false,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "http_response_code"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "last"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "server",
+              "operator": "=~",
+              "value": "/^$url_name$/"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "$url_name",
+      "type": "stat"
+    },
+    {
+      "columns": [
+        {
+          "text": "Current",
+          "value": "current"
+        }
+      ],
+      "datasource": "${DS_INFLUXDB}",
+      "description": "SSL Certificate Monitoring Table. On the first column you can find the SSL x509 Certificate name, and on the second column the TTL/Expirty Date in days.\n\nThresholds are:\n* From 0 days to 14, Red\n* From 15 days to 30, Orange\n* From 31 days onward, Green",
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 7,
+        "w": 24,
+        "x": 0,
+        "y": 7
+      },
+      "id": 9,
+      "options": {},
+      "pageSize": null,
+      "showHeader": true,
+      "sort": {
+        "col": 0,
+        "desc": true
+      },
+      "styles": [
+        {
+          "alias": "",
+          "align": "auto",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "link": false,
+          "mappingType": 1,
+          "pattern": "Time",
+          "thresholds": [],
+          "type": "hidden",
+          "unit": "short"
+        },
+        {
+          "alias": "HTTP Response",
+          "align": "left",
+          "colorMode": "row",
+          "colors": [
+            "rgba(50, 172, 45, 0.97)",
+            "#FF780A",
+            "#E02F44"
+          ],
+          "decimals": 0,
+          "pattern": "Current",
+          "thresholds": [
+            "300",
+            "400"
+          ],
+          "type": "number",
+          "unit": "none"
+        },
+        {
+          "alias": "SSL Certificate",
+          "align": "auto",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "link": false,
+          "mappingType": 1,
+          "pattern": "Metric",
+          "preserveFormat": true,
+          "sanitize": true,
+          "thresholds": [
+            ""
+          ],
+          "type": "string",
+          "unit": "short",
+          "valueMaps": []
+        }
+      ],
+      "targets": [
+        {
+          "alias": "$tag_server",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT last(\"http_response_code\") FROM \"http_response\" WHERE (\"server\" =~ /^$url_name$/) AND $timeFilter GROUP BY server",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "",
+      "transform": "timeseries_aggregations",
+      "transparent": true,
+      "type": "table"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "${DS_INFLUXDB}",
+      "fill": 2,
+      "fillGradient": 5,
+      "gridPos": {
+        "h": 9,
+        "w": 24,
+        "x": 0,
+        "y": 14
+      },
+      "hiddenSeries": false,
+      "id": 13,
+      "legend": {
+        "alignAsTable": true,
+        "avg": false,
+        "current": true,
+        "hideEmpty": true,
+        "hideZero": true,
+        "max": true,
+        "min": true,
+        "rightSide": false,
+        "show": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 2,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "alias": "$tag_server",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "server"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "none"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "http_response",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT last(\"http_response_code\") FROM \"http_response\" WHERE (\"server\" =~ /^$url_name$/) AND $timeFilter GROUP BY server",
+          "rawQuery": false,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "response_time"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "last"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "server",
+              "operator": "=~",
+              "value": "/^$url_name$/"
+            }
+          ]
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "HTTP Response in ms",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "ms",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    }
+  ],
+  "schemaVersion": 22,
+  "style": "dark",
+  "tags": [
+    "http",
+    "http_response"
+  ],
+  "templating": {
+    "list": [
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": "${DS_INFLUXDB}",
+        "definition": "SHOW TAG VALUES FROM http_response WITH KEY=server",
+        "hide": 0,
+        "includeAll": true,
+        "label": "URL",
+        "multi": true,
+        "name": "url_name",
+        "options": [],
+        "query": "SHOW TAG VALUES FROM http_response WITH KEY=server",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      }
+    ]
+  },
+  "time": {
+    "from": "now-5m",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ]
+  },
+  "timezone": "",
+  "title": "HTTP Response Monitoring",
+  "uid": "Os3hdxQZk",
+  "version": 6
+}

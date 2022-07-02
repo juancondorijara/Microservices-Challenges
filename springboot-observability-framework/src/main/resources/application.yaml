@@ -1,0 +1,56 @@
+spring:
+  profiles: 
+    active: observability
+    
+opentracing:
+  jaeger:
+    service-name: ${spring.application.name}
+    enabled: TRUE
+    udp-sender:
+      host: localhost
+      port: 6831 
+    log-spans: true  
+
+management:
+  health:
+    rabbit:
+      enabled: false
+    endpoint:
+      shutdown:
+        enabled: true
+      health:
+        show-details: always
+        enabled: true
+      metrics:
+        enabled: true
+      info:
+        enabled: true
+      env:
+        enabled: true
+  metrics:
+   tags:
+    application: ${spring.application.name}
+    service: ${spring.application.name}
+    instance: ${spring.application.name}
+   enable:
+    jvm: true
+    process: true
+    tomcat: true
+    system: true
+    logback: true
+   distribution:
+    slo:
+      http.server.requests: 50ms
+    percentiles-histogram:
+      http.server.requests: true
+    percentiles:
+      http.server.requests: 0.99
+  endpoints:
+    enabled-by-default: true
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+   metrics:
+    enabled: true
+ 

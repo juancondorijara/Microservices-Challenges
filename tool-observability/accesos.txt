@@ -1,0 +1,8 @@
+localhost:9200  > elasticsearch = usu:elastic | pass:elastic123
+localhost:5601  > kibana        = usu:elastic | pass:elastic123
+localhost:15672 > rabbitmq      = usu:vg | pass:vg123
+localhost:9090  > prometheus    = sin credenciales
+localhost:3000  > grafana       = usu:admin | pass:admin
+localhost:16686 > jaeger-query  = sin credenciales
+localhost:8080  > coproductos   = sin credenciales
+localhost:8081  > bsitem        = sin credenciales

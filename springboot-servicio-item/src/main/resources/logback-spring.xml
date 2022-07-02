@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="false">
+	<springProperty name="service"
+		source="spring.application.name" />
+	<appender name="AMQP"
+		class="org.springframework.amqp.rabbit.logback.AmqpAppender">
+		<layout>
+			<pattern>
+				{
+				"time": "%date{ISO8601}", 
+				"thread": "%thread", 
+				"level": "%level", 
+				"class": "%logger{36}", 
+				"message": "%message"
+				}\n
+			</pattern>
+		</layout>
+
+		<host>localhost</host>
+		<port>5672</port>
+		<username>vg</username>
+		<password>vg123</password>
+
+		<exchangeName>log-microservices</exchangeName>
+		<exchangeType>queue</exchangeType>
+		<applicationId>log-microservices</applicationId>
+		<routingKeyPattern>log-microservices</routingKeyPattern>
+
+		<generateId>true</generateId>
+		<charset>UTF-8</charset>
+		<durable>false</durable>
+		<deliveryMode>PERSISTENT</deliveryMode>
+	</appender>
+	<root level="INFO">
+		<appender-ref ref="AMQP" />
+	</root>
+</configuration>

@@ -1,0 +1,6 @@
+org\vallegrande\controller\InstituteController.class
+org\vallegrande\GreetingResource.class
+META-INF\panache-archive.marker
+org\vallegrande\entity\Institute.class
+org\vallegrande\entity\Status.class
+org\vallegrande\repository\InstituteRepository.class

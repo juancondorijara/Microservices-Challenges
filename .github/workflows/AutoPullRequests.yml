@@ -1,0 +1,49 @@
+name: Auto Pull Requests
+
+on:
+  push:
+    branches:
+      - sonarqube
+
+jobs:
+  updateAuthor:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Revisando Código
+        uses: actions/checkout@v2
+
+      - name: Extraer Datos de Confirmación de Git
+        uses: rlespinasse/git-commit-data-action@v1.x
+
+      - name: Actualizar la Información del Autor
+        run: echo ${{ env.GIT_COMMIT_AUTHOR_NAME }} > AUTHOR_RUN
+
+      - name: Create Pull Requests
+        id: mydemo
+        uses: peter-evans/create-pull-request@v3
+        with:
+          branch: "Challenge9"
+          base: sonarqube
+          title: "Auto Pull Requests"
+          committer: ${{ env.GIT_COMMIT_AUTHOR_NAME }} <${{ env.GIT_COMMIT_AUTHOR_EMAIL }}">
+          author: ${{ env.GIT_COMMIT_AUTHOR_NAME }} <${{ env.GIT_COMMIT_AUTHOR_EMAIL }}">
+          body:
+            Creación Automática de Pull Requests
+          token: ${{ secrets.TOKEN_GITHUB }}
+          delete-branch: false
+
+      - name: Approve Pull Request
+        uses: juliangruber/approve-pull-request-action@v1
+        with:
+          github-token: ${{ secrets.TOKEN_GITHUB_APPROVE }}
+          number: ${{ steps.mydemo.outputs.pull-request-number }}
+
+      - name: Merge Pull Request
+        uses: juliangruber/merge-pull-request-action@v1
+        with:
+          github-token: ${{ secrets.TOKEN_GITHUB }}
+          number: ${{ steps.mydemo.outputs.pull-request-number }}
+          method: merge
+
+      - name: Actualizar la Información del Autor
+        run: echo ${{ env.GIT_COMMIT_AUTHOR_NAME }} > AUTHOR_RUN
